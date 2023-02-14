@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Collection, MongoClient } from 'mongodb';
+import { Collection, Filter, MongoClient } from 'mongodb';
 
 dotenv.config();
 

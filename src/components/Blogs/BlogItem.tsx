@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import styles from './Blogs.module.scss';
+import Link from 'next/link';
 
 export interface BlogItemType {
     id: string;
@@ -50,9 +51,15 @@ const BlogItem: FC<BlogItemType> = ({ id, img, title, author, descr, likes, date
                         <>{likes > 0 ? likes : ''}</>
                         <span>Like</span>
                     </button>
-                    <button className={styles.blog__item_btn}>
-                        <img src="/icons/comment.svg" alt="comment" width={26} height={26} /> <span>Comment</span>
-                    </button>
+                    <Link
+                        href={{
+                            pathname: `/blogs/${id}`,
+                            query: { target: 'commentsBlock' },
+                        }}>
+                        <button className={styles.blog__item_btn}>
+                            <img src="/icons/comment.svg" alt="comment" width={26} height={26} /> <span>Comment</span>
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>

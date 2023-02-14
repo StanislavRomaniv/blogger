@@ -48,3 +48,8 @@ button {
     padding: 0;
     font-family: 'Lato', sans-serif;
 }
+
+input,
+textarea {
+    font-family: 'Lato', sans-serif;
+}

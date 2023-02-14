@@ -31,8 +31,7 @@
 
     &__date {
         font-size: 16px;
-        width: 100%;
-        padding-top: 50px;
+        padding-right: 50px;
         display: flex;
         justify-content: flex-start;
     }
@@ -99,11 +98,21 @@
         display: flex;
         padding-top: 50px;
         justify-content: flex-start;
+        align-items: center;
     }
 
     &__text {
         padding: 0px;
         font-size: 17px;
+    }
+
+    &__comments {
+        margin-top: 50px;
+
+        &_title {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
     }
 }
 

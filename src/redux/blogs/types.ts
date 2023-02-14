@@ -15,6 +15,7 @@ export interface CommentType {
     email: string;
     name: string;
     comment: string;
+    id: string;
 }
 
 export interface BlogListState {
