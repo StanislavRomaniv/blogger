@@ -3,16 +3,16 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
 import { Element, scroller } from 'react-scroll';
+import ReactMarkdown from 'react-markdown';
 
-import { CommentType } from '@/redux/blogs/types';
+import { BlogType, CommentType } from '@/redux/blogs/types';
 
 import NewComment from '../Comments/NewComment';
 import CommentList from '../Comments/CommentList';
-import { BlogItemType } from '../Blogs/BlogItem';
 
 import styles from './BlogPage.module.scss';
 
-const BlogItemPage: FC<BlogItemType> = ({ id, img, title, author, descr, likes, date }) => {
+const BlogItemPage: FC<BlogType> = ({ id, img, title, author, descr, likes, date }) => {
     const router = useRouter();
     const [comments, setComments] = useState([]);
 
@@ -73,7 +73,7 @@ const BlogItemPage: FC<BlogItemType> = ({ id, img, title, author, descr, likes, 
                     <Image src={img} alt={title} className={styles.blog__img} width={1000} height={660} />
                 </div>
                 <div className={styles.blog__text}>
-                    <p className={styles.blog__descr}>{descr}</p>
+                    <ReactMarkdown className={styles.blog__descr}>{descr}</ReactMarkdown>
                 </div>
             </div>
             <div className={styles.blog__bottom}>

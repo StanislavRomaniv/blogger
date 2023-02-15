@@ -5,6 +5,7 @@ export interface BlogType {
     title: string;
     author: string;
     descr: string;
+    excerpt: string;
     featured: boolean;
     comments: CommentType[];
     likes: number;

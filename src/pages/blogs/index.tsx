@@ -9,6 +9,7 @@ import Blogs, { BlogListType } from '@/components/Blogs';
 
 import styles from '@/styles/PageHeader.module.scss';
 import { BlogType } from '@/redux/blogs/types';
+import Sort from '@/components/Sort';
 
 const sortList = [
     { name: 'Date (new fist)', type: 'date' },
@@ -28,32 +29,9 @@ const BlogsPage: FC<BlogListType> = ({ blogList }) => {
         localStorage.setItem('sort-type-all', type);
     };
 
-    const dateSorting = (d1: string, d2: string) => {
-        const dateA = new Date(d1).getTime();
-        const dateB = new Date(d2).getTime();
-        return dateA > dateB ? -1 : 1;
-    };
-
-    const sortListByType = (type: string, list: BlogType[]) => {
-        const copyList = [...list];
-
-        if (type === 'date') {
-            return copyList.sort((a, b) => dateSorting(a.date, b.date));
-        } else if (type === '-date') {
-            return copyList.sort((a, b) => dateSorting(b.date, a.date));
-        } else if (type === 'name') {
-            return copyList.sort((a, b) => (a.title > b.title ? 1 : -1));
-        } else if (type === '-name') {
-            return copyList.sort((a, b) => (a.title > b.title ? -1 : 1));
-        }
-
-        return copyList;
-    };
-
-    useEffect(() => {
-        const list = sortListByType(sortType, blogList);
+    const setNewList = (list: BlogType[]) => {
         setFilteredList(list);
-    }, [sortType]);
+    };
 
     useEffect(() => {
         setSortType(localStorage.getItem('sort-type-all') || 'date');
@@ -76,16 +54,7 @@ const BlogsPage: FC<BlogListType> = ({ blogList }) => {
                             It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,
                         </p>
                     </div>
-                    <div className={styles.sort}>
-                        <span className={styles.sort__text}>Sort by: </span>
-                        <ul className={styles.sort__list}>
-                            {sortList.map((sort, i) => (
-                                <li key={i} className={`${styles.sort__item} ${sort.type === sortType ? styles.sort__item_active : ''}`} onClick={() => sortCkickHandler(sort.type)}>
-                                    {sort.name}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <Sort blogList={blogList} setNewList={setNewList} />
                 </div>
             </div>
             <Blogs blogList={filteredList} />

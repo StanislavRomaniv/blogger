@@ -11,13 +11,14 @@ export interface BlogItemType {
     title: string;
     author: string;
     descr: string;
+    excerpt: string;
     likes: number;
     date: string;
 }
 
-const BlogItem: FC<BlogItemType> = ({ id, img, title, author, descr, likes, date }) => {
+const BlogItem: FC<BlogItemType> = ({ id, img, title, author, likes, date, excerpt }) => {
     const router = useRouter();
-    const shortDescr = descr.length > 170 ? descr.slice(0, 170) + '...' : descr;
+    const shortDescr = excerpt.length > 180 ? excerpt.slice(0, 180) + '...' : excerpt;
 
     const clickHandler = () => {
         router.push(`/blogs/${id}`);
