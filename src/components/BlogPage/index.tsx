@@ -16,6 +16,11 @@ import styles from './BlogPage.module.scss';
 const BlogItemPage: FC<BlogItemType> = ({ id, img, title, author, descr, likes, date }) => {
     const router = useRouter();
     const [comments, setComments] = useState([]);
+    const formattedDate = new Date(date).toLocaleDateString('en', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+    });
 
     useEffect(() => {
         getCommentList();
@@ -79,7 +84,7 @@ const BlogItemPage: FC<BlogItemType> = ({ id, img, title, author, descr, likes, 
             </div>
             <div className={styles.blog__bottom}>
                 <div className={styles.blog__nav}>
-                    <span className={styles.blog__date}>{date}</span>
+                    <span className={styles.blog__date}>{formattedDate}</span>
                     <button className={styles.blog__btn}>
                         <img src="/icons/like.svg" alt="like" width={32} height={32} />
                         <>{likes > 0 ? likes : ''}</>

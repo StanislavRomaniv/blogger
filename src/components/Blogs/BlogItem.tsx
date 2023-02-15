@@ -19,6 +19,11 @@ export interface BlogItemType {
 const BlogItem: FC<BlogItemType> = ({ id, img, title, author, likes, date, excerpt }) => {
     const router = useRouter();
     const shortDescr = excerpt.length > 180 ? excerpt.slice(0, 180) + '...' : excerpt;
+    const formattedDate = new Date(date).toLocaleDateString('en', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+    });
 
     const clickHandler = () => {
         router.push(`/blogs/${id}`);
@@ -45,7 +50,7 @@ const BlogItem: FC<BlogItemType> = ({ id, img, title, author, likes, date, excer
                 </div>
             </div>
             <div className={styles.blog__item_bottom}>
-                <span className={styles.blog__item_date}>{date}</span>
+                <span className={styles.blog__item_date}>{formattedDate}</span>
                 <div className={styles.blog__item_nav}>
                     <button className={styles.blog__item_btn}>
                         <img src="/icons/like.svg" alt="like" width={24} height={24} />
