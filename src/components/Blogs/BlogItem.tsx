@@ -56,10 +56,9 @@ const BlogItem: FC<BlogItemType> = ({ id, img, title, author, likes, date, excer
                         href={{
                             pathname: `/blogs/${id}`,
                             query: { target: 'commentsBlock' },
-                        }}>
-                        <button className={styles.blog__item_btn}>
-                            <img src="/icons/comment.svg" alt="comment" width={26} height={26} /> <span>Comment</span>
-                        </button>
+                        }}
+                        className={styles.blog__item_btn}>
+                        <img src="/icons/comment.svg" alt="comment" width={26} height={26} /> <span>Comment</span>
                     </Link>
                 </div>
             </div>

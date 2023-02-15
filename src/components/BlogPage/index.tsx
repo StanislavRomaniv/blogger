@@ -5,14 +5,15 @@ import React, { FC, useEffect, useState } from 'react';
 import { Element, scroller } from 'react-scroll';
 import ReactMarkdown from 'react-markdown';
 
-import { BlogType, CommentType } from '@/redux/blogs/types';
+import { CommentType } from '@/redux/blogs/types';
+import { BlogItemType } from '../Blogs/BlogItem';
 
 import NewComment from '../Comments/NewComment';
 import CommentList from '../Comments/CommentList';
 
 import styles from './BlogPage.module.scss';
 
-const BlogItemPage: FC<BlogType> = ({ id, img, title, author, descr, likes, date }) => {
+const BlogItemPage: FC<BlogItemType> = ({ id, img, title, author, descr, likes, date }) => {
     const router = useRouter();
     const [comments, setComments] = useState([]);
 

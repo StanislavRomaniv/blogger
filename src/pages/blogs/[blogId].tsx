@@ -17,7 +17,7 @@ const BlogPage: FC<BlogPageType> = ({ blogItem }) => {
             <div className={styles.header}>
                 <div className={`${styles.head__top} ${styles.head__top_page}`}></div>
             </div>
-            <BlogItemPage id={blogItem.id} img={blogItem.img} title={blogItem.title} author={blogItem.author} descr={blogItem.descr} date={blogItem.date} likes={blogItem.likes} />
+            <BlogItemPage id={blogItem.id} img={blogItem.img} title={blogItem.title} author={blogItem.author} descr={blogItem.descr} excerpt={blogItem.excerpt} date={blogItem.date} likes={blogItem.likes} />
         </>
     );
 };
@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
     return {
-        paths: [{ params: { blogId: 'b1' } }, { params: { blogId: 'b2' } }, { params: { blogId: 'b3' } }],
+        paths: [{ params: { blogId: 'ai-nowadays' } }, { params: { blogId: 'street-food' } }],
         fallback: 'blocking',
     };
 };

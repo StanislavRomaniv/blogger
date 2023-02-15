@@ -3,9 +3,9 @@ import React from 'react';
 import styles from './Footer.module.scss';
 
 const socialList = [
-    { name: 'Instagram', src: '/icons/instagram.svg' },
-    { name: 'Telegram', src: '/icons/telegram.svg' },
-    { name: 'LinkedIn', src: '/icons/linkedin.svg' },
+    { name: 'Instagram', src: '/icons/instagram.svg', path: 'https://instagram.com/stanislavvvromaniv' },
+    { name: 'Telegram', src: '/icons/telegram.svg', path: 'https://t.me/s0nch1kk' },
+    { name: 'LinkedIn', src: '/icons/linkedin.svg', path: 'https://linkedin.com/in/stanislav-romaniv-a54aaa244/' },
 ];
 
 const Footer = () => {
@@ -13,9 +13,11 @@ const Footer = () => {
         <footer className={styles.footer}>
             <ul className={styles.footer__top}>
                 {socialList.map((item, i) => (
-                    <li key={i}>
-                        <img src={item.src} alt={item.name} />
-                    </li>
+                    <a key={i} href={item.path}>
+                        <li>
+                            <img src={item.src} alt={item.name} />
+                        </li>
+                    </a>
                 ))}
             </ul>
             <div className={styles.footer__bottom}>
