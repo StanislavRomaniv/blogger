@@ -1,13 +1,11 @@
 import dotenv from 'dotenv';
-import { Collection, Filter, MongoClient } from 'mongodb';
+import { Collection, MongoClient } from 'mongodb';
 
 dotenv.config();
 
 export const createClient = async () => {
     const urL = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uvxcuwa.mongodb.net/?retryWrites=true&w=majority`;
     const client = new MongoClient(urL);
-
-    console.log('client');
 
     return await client.connect();
 };
