@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
@@ -49,6 +50,29 @@ const Header = () => {
                                           </Link>
                                       </li>
                                   ))}
+                            {active ? (
+                                // <li className={`${styles.navbar__item} ${styles.navbar__item_login}`} onClick={clickHandler}>
+                                // <Link className={styles.navbar__item_link} href="/">
+                                // <div className={styles.login}>Log In</div>
+                                // </Link>
+                                // </li>
+                                <li className={styles.navbar__item}>
+                                    <Link className={styles.navbar__item_link} href="/">
+                                        <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} onClick={clickHandler} />
+                                    </Link>
+                                </li>
+                            ) : (
+                                // <li className={`${styles.navbar__item} ${styles.navbar__item_login}`}>
+                                //<Link className={styles.navbar__item_link} href="/">
+                                //     <div className={styles.login}>Log In</div>
+                                // </Link>
+                                // </li>
+                                <li className={styles.navbar__item}>
+                                    <Link className={styles.navbar__item_link} href="/">
+                                        <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} />
+                                    </Link>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>
