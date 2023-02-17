@@ -1,7 +1,6 @@
 import axios from 'axios';
-import Image from 'next/image';
 import { FormikHelpers, Field, Form, Formik } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './Contact.module.scss';
 

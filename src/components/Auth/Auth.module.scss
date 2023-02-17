@@ -1,0 +1,226 @@
+.auth {
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 60px;
+    margin: 0 auto;
+}
+
+.form {
+    &__container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        background-color: #fff;
+        box-shadow: 0px 5px 20px -10px rgba(0, 0, 0, 0.75);
+        border-radius: 10px;
+    }
+
+    &__wrapper {
+        padding: 50px 10%;
+        text-align: center;
+
+        &:last-child {
+            height: 100%;
+            background-color: #06d4b2;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+    }
+
+    &__text {
+        font-size: 24px;
+        line-height: 24px;
+        margin-bottom: 20px;
+
+        &:last-child {
+            color: #fff;
+        }
+
+        span {
+            font-size: 14px;
+            text-transform: lowercase;
+            color: inherit;
+        }
+
+        &_button {
+            margin: 0 auto;
+            width: fit-content;
+            display: block;
+            position: relative;
+            line-height: 20px;
+            font-size: 16px;
+            color: #06d4b2;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+
+            &:after {
+                content: '';
+                position: absolute;
+                height: 1px;
+                width: 100%;
+                bottom: 0px;
+                left: 0;
+                background-color: #06d4b2;
+                opacity: 0;
+                transition: all 0.3s ease-in-out;
+            }
+
+            &:hover {
+                &:after {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    &__btn {
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #000;
+        color: #fff;
+        height: 35px;
+        margin: 15px auto 0 auto;
+        width: 100%;
+        max-width: 200px;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+
+        &:hover {
+            background-color: #06d4b2;
+            border-radius: 25px;
+        }
+    }
+}
+
+.input {
+    border: none;
+    padding: 0 0 5px 7px;
+    border-bottom: #000 solid 1px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 30px;
+    background: #fff;
+    color: #046c58;
+    font-size: 15px;
+    font-family: 'Lato', sans-serif;
+    outline: none;
+
+    &::placeholder {
+        color: #000;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &_invalid {
+        border-bottom: #ff0000 solid 1px;
+
+        &_text {
+            color: #ff0000;
+            font-size: 12px;
+            text-transform: lowercase;
+            margin: -15px 0 0 0;
+        }
+    }
+}
+
+.sigup__with {
+    &_list {
+        margin-top: 50px;
+    }
+
+    &_item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 10px;
+        height: 50px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+        // transform: perspective(1px) translateZ(0);
+
+        &:hover {
+            transform: translateX(5px);
+        }
+
+        span {
+            font-size: 18px;
+            padding-left: 10px;
+        }
+    }
+}
+
+.white {
+    color: #fff;
+    .form__text_button {
+        color: #fff;
+
+        &:after {
+            background-color: #fff;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .auth {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .form {
+        &__container {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        &__wrapper {
+            &:last-child {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 10px;
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 10px;
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .auth {
+        padding: 0 40px;
+    }
+    .form {
+        &__wrapper {
+            padding: 40px 10%;
+            text-align: center;
+        }
+
+        &__text {
+            font-size: 20px;
+            line-height: 24px;
+            margin-bottom: 20px;
+
+            span {
+                font-size: 13px;
+            }
+
+            &_button {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .input {
+        font-size: 14px;
+    }
+
+    .sigup__with_item {
+        span {
+            font-size: 16px;
+        }
+    }
+}

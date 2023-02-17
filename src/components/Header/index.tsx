@@ -51,27 +51,27 @@ const Header = () => {
                                       </li>
                                   ))}
                             {active ? (
-                                // <li className={`${styles.navbar__item} ${styles.navbar__item_login}`} onClick={clickHandler}>
-                                // <Link className={styles.navbar__item_link} href="/">
-                                // <div className={styles.login}>Log In</div>
-                                // </Link>
-                                // </li>
-                                <li className={styles.navbar__item}>
-                                    <Link className={styles.navbar__item_link} href="/">
-                                        <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} onClick={clickHandler} />
+                                <li className={`${styles.navbar__item} ${styles.navbar__item_login}`} onClick={clickHandler}>
+                                    <Link className={styles.navbar__item_link} href="/auth">
+                                        <div className={styles.login}>Log In</div>
                                     </Link>
                                 </li>
                             ) : (
-                                // <li className={`${styles.navbar__item} ${styles.navbar__item_login}`}>
-                                //<Link className={styles.navbar__item_link} href="/">
-                                //     <div className={styles.login}>Log In</div>
-                                // </Link>
+                                // <li className={styles.navbar__item}>
+                                //     <Link className={styles.navbar__item_link} href="/profile">
+                                //         <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} onClick={clickHandler} />
+                                //     </Link>
                                 // </li>
-                                <li className={styles.navbar__item}>
-                                    <Link className={styles.navbar__item_link} href="/">
-                                        <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} />
+                                <li className={`${styles.navbar__item} ${styles.navbar__item_login}`}>
+                                    <Link className={styles.navbar__item_link} href="/auth">
+                                        <div className={styles.login}>Log In</div>
                                     </Link>
                                 </li>
+                                // <li className={styles.navbar__item}>
+                                //     <Link className={styles.navbar__item_link} href="/profile">
+                                //         <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} />
+                                //     </Link>
+                                // </li>
                             )}
                         </ul>
                     </div>
