@@ -1,0 +1,127 @@
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 0 60px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    column-gap: 10%;
+    justify-content: center;
+}
+
+.left {
+    width: 100%;
+    text-align: center;
+}
+
+.right {
+    padding-top: 15px;
+}
+
+.name {
+    font-size: 28px;
+    letter-spacing: 0.025em;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.block {
+    margin-top: 30px;
+
+    label {
+        display: block;
+        font-size: 17px;
+        color: #046c58;
+        margin-bottom: 10px;
+    }
+
+    input {
+        font-size: 14px;
+        color: #4f4f4f;
+        width: 80%;
+        height: 40px;
+        font-family: 'Lato', sans-serif;
+        border: none;
+        border-bottom: 1px solid #bbbbbb;
+        resize: none;
+        overflow: hidden;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    textarea {
+        font-size: 14px;
+        color: #4f4f4f;
+        width: 80%;
+        height: 50px;
+        font-family: 'Lato', sans-serif;
+        border: none;
+        border-bottom: 1px solid #bbbbbb;
+        resize: none;
+        overflow: hidden;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    svg {
+        box-sizing: border-box;
+        cursor: pointer;
+        background-color: #d0d0d0;
+        border-radius: 5px;
+        display: block;
+        padding: 5px;
+        margin-left: 15px;
+        transition: all 0.2s ease-out;
+
+        &:hover {
+            transform: scale(0.9);
+        }
+    }
+}
+
+.input {
+    display: flex;
+    align-items: flex-end;
+
+    &__bottom {
+        margin-top: 5px;
+    }
+}
+
+.svg {
+    width: 25px;
+    height: 25px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: #d0d0d0;
+    border-radius: 5px;
+    display: block;
+    padding: 5px;
+    margin-left: 15px;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+        transform: scale(0.9);
+    }
+}
+
+.edit {
+    width: 27px;
+    height: 27px;
+    margin-left: 20px;
+}
+
+.button {
+    font-size: 14px;
+    padding: 8px 20px;
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 10px;
+}

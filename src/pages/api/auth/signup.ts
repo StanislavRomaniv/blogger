@@ -30,15 +30,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const isSignedUp = await collection.findOne({ email: newUser.email });
 
     if (isSignedUp) {
-        res.status(200).send('User already exists!');
+        res.status(201).send('User already exists!');
         client.close();
         return;
     }
 
-    newUser.password = await hashPassword(newUser.password);
+    const hashedPassword = await hashPassword(newUser.password);
 
     try {
-        await collection.insertOne({ ...newUser });
+        await collection.insertOne({ ...newUser, password: hashedPassword });
         res.status(200).send('You`re successfully signed up!');
     } catch (error) {
         res.status(500).send('Inserting the document failed!');

@@ -16,6 +16,7 @@ import styles from './BlogPage.module.scss';
 const BlogItemPage: FC<BlogItemType> = ({ id, img, title, author, descr, likes, date }) => {
     const router = useRouter();
     const [comments, setComments] = useState([]);
+    const [error, setError] = useState('');
     const formattedDate = new Date(date).toLocaleDateString('en', {
         day: '2-digit',
         month: 'long',
@@ -58,50 +59,54 @@ const BlogItemPage: FC<BlogItemType> = ({ id, img, title, author, descr, likes, 
             data: {
                 ...comment,
             },
-        })
-            .then((res) => console.log(res))
-            .catch((error) => console.log(error));
+        }).catch((error) => setError('Something went wrong. Please try again later!'));
 
         await getCommentList();
     };
 
     return (
         <div className={styles.blog}>
-            <div className={styles.blog__text_top}>
-                <button className={styles.blog__btn_back} onClick={backClickHandler}>
-                    Go back
-                </button>
-                <h4 className={styles.blog__title}>{title}</h4>
-                <span className={styles.blog__author}>Post By: {author}</span>
-            </div>
-            <div className={styles.blog__content}>
-                <div className={styles.blog__img_wrapper}>
-                    <Image src={img} alt={title} className={styles.blog__img} width={1000} height={660} />
-                </div>
-                <div className={styles.blog__text}>
-                    <ReactMarkdown className={styles.blog__descr}>{descr}</ReactMarkdown>
-                </div>
-            </div>
-            <div className={styles.blog__bottom}>
-                <div className={styles.blog__nav}>
-                    <span className={styles.blog__date}>{formattedDate}</span>
-                    <button className={styles.blog__btn}>
-                        <img src="/icons/like.svg" alt="like" width={32} height={32} />
-                        <>{likes > 0 ? likes : ''}</>
-                        <span>Like</span>
-                    </button>
-                    {/* <button className={styles.blog__btn}>
+            {error ? (
+                <span className={styles.blog__author}>{error}</span>
+            ) : (
+                <>
+                    <div className={styles.blog__text_top}>
+                        <button className={styles.blog__btn_back} onClick={backClickHandler}>
+                            Go back
+                        </button>
+                        <h4 className={styles.blog__title}>{title}</h4>
+                        <span className={styles.blog__author}>Post By: {author}</span>
+                    </div>
+                    <div className={styles.blog__content}>
+                        <div className={styles.blog__img_wrapper}>
+                            <Image src={img} alt={title} className={styles.blog__img} width={1000} height={660} />
+                        </div>
+                        <div className={styles.blog__text}>
+                            <ReactMarkdown className={styles.blog__descr}>{descr}</ReactMarkdown>
+                        </div>
+                    </div>
+                    <div className={styles.blog__bottom}>
+                        <div className={styles.blog__nav}>
+                            <span className={styles.blog__date}>{formattedDate}</span>
+                            <button className={styles.blog__btn}>
+                                <img src="/icons/like.svg" alt="like" width={32} height={32} />
+                                <>{likes > 0 ? likes : ''}</>
+                                <span>Like</span>
+                            </button>
+                            {/* <button className={styles.blog__btn}>
                         <img src="/icons/comment.svg" alt="comment" width={35} height={35} /> <span>Comment</span>
                     </button> */}
-                </div>
-            </div>
-            <Element id="commentsBlock" name="commentsBlock">
-                <div className={styles.blog__comments}>
-                    <h3 className={styles.blog__comments_title}>Comments</h3>
-                    <NewComment onAddComment={onAddCommentHandler} />
-                    {comments.length > 0 ? <CommentList commentList={comments} /> : <span>No comments here yet</span>}
-                </div>
-            </Element>
+                        </div>
+                    </div>
+                    <Element id="commentsBlock" name="commentsBlock">
+                        <div className={styles.blog__comments}>
+                            <h3 className={styles.blog__comments_title}>Comments</h3>
+                            <NewComment onAddComment={onAddCommentHandler} />
+                            {comments.length > 0 ? <CommentList commentList={comments} /> : <span>No comments here yet</span>}
+                        </div>
+                    </Element>
+                </>
+            )}
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import styles from './Auth.module.scss';
@@ -11,20 +12,23 @@ export interface SignupValues {
 }
 
 const SignupForm = () => {
-    const emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    const router = useRouter();
     const [statusMessage, setStatusMessage] = useState({
         text: '',
         type: '',
     });
 
+    const emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
     useEffect(() => {
         if (statusMessage.text) {
             const timer = setTimeout(() => {
+                router.replace('/');
                 setStatusMessage({
                     text: '',
                     type: '',
                 });
-            }, 4000);
+            }, 2000);
 
             return () => {
                 clearTimeout(timer);
@@ -73,10 +77,15 @@ const SignupForm = () => {
             data: { ...values },
         })
             .then((res) => {
-                setStatusMessage({
-                    text: 'You`re successfully signed up!',
-                    type: 'success',
-                });
+                res.status === 200
+                    ? setStatusMessage({
+                          text: 'You`re successfully signed up!',
+                          type: 'success',
+                      })
+                    : setStatusMessage({
+                          text: 'User already exists!',
+                          type: 'success',
+                      });
                 helpers.resetForm();
                 helpers.setSubmitting(false);
             })
@@ -97,14 +106,14 @@ const SignupForm = () => {
 
     return (
         <Formik initialValues={initialValues} validate={validate} onSubmit={submitForm}>
-            {({ errors, isSubmitting }) => (
+            {({ errors, isSubmitting, touched }) => (
                 <Form className={styles.form}>
-                    <Field className={`${styles.input} ${errors.name ? styles.input_invalid : ''}`} type="text" name="name" placeholder="Name" />
-                    {errors.name ? <div className={styles.input_invalid_text}>{errors.name}</div> : ''}
-                    <Field className={`${styles.input} ${errors.email ? styles.input_invalid : ''}`} type="email" name="email" placeholder="Email" />
-                    {errors.email ? <div className={styles.input_invalid_text}>{errors.email}</div> : ''}
-                    <Field className={`${styles.input} ${errors.password ? styles.input_invalid : ''}`} type="password" name="password" placeholder="Password" />
-                    {errors.password ? <div className={styles.input_invalid_text}>{errors.password}</div> : ''}
+                    <Field className={`${styles.input} ${errors.name && touched.name ? styles.input_invalid : ''}`} type="text" name="name" placeholder="Name" />
+                    {errors.name && touched.name ? <div className={styles.input_invalid_text}>{errors.name}</div> : ''}
+                    <Field className={`${styles.input} ${errors.email && touched.email ? styles.input_invalid : ''}`} type="email" name="email" placeholder="Email" />
+                    {errors.email && touched.email ? <div className={styles.input_invalid_text}>{errors.email}</div> : ''}
+                    <Field className={`${styles.input} ${errors.password && touched.password ? styles.input_invalid : ''}`} type="password" name="password" placeholder="Password" />
+                    {errors.password && touched.password ? <div className={styles.input_invalid_text}>{errors.password}</div> : ''}
                     {statusMessage.text && <div className={statusMessage.type === 'fault' ? styles.fault : styles.success}>{statusMessage.text}</div>}
                     <button type="submit" className={styles.form__btn} disabled={isSubmitting}>
                         {isSubmitting ? (

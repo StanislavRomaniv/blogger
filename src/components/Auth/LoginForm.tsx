@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import styles from './Auth.module.scss';
@@ -10,6 +12,7 @@ export interface LoginValues {
 }
 
 const LoginForm = () => {
+    const router = useRouter();
     const emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
     const [statusMessage, setStatusMessage] = useState({
         text: '',
@@ -23,7 +26,7 @@ const LoginForm = () => {
                     text: '',
                     type: '',
                 });
-            }, 4000);
+            }, 3000);
 
             return () => {
                 clearTimeout(timer);
@@ -56,45 +59,29 @@ const LoginForm = () => {
         return errors;
     };
 
-    const submitForm = (values: LoginValues, helpers: FormikHelpers<typeof initialValues>) => {
-        helpers.setSubmitting(true);
+    const submitForm = async (values: LoginValues, helpers: FormikHelpers<typeof initialValues>) => {
+        const response = await signIn('credentials', { redirect: false, ...values, callbackUrl: '/' });
 
-        axios({
-            method: 'POST',
-            url: '/api/auth/signup',
-            data: { ...values },
-        })
-            .then((res) => {
-                setStatusMessage({
-                    text: 'You`re successfully signed up!',
-                    type: 'success',
-                });
-                helpers.resetForm();
-                helpers.setSubmitting(false);
-            })
-            .catch((error) => {
-                error.response.status === 500
-                    ? setStatusMessage({
-                          text: 'Something went wrong. Please try again later',
-                          type: 'fault',
-                      })
-                    : setStatusMessage({
-                          text: 'Please enter proper values!',
-                          type: 'fault',
-                      });
-                helpers.resetForm();
-                helpers.setSubmitting(false);
+        if (response?.error) {
+            setStatusMessage({
+                text: response.error,
+                type: 'fault',
             });
+        } else {
+            router.replace('/');
+        }
+
+        helpers.setSubmitting(false);
     };
 
     return (
         <Formik initialValues={initialValues} validate={validate} onSubmit={submitForm}>
-            {({ errors, isSubmitting }) => (
+            {({ errors, isSubmitting, touched }) => (
                 <Form className={styles.form}>
-                    <Field className={`${styles.input} ${errors.email ? styles.input_invalid : ''}`} type="email" name="email" placeholder="Email" />
-                    {errors.email ? <div className={styles.input_invalid_text}>{errors.email}</div> : ''}
-                    <Field className={`${styles.input} ${errors.password ? styles.input_invalid : ''}`} type="password" name="password" placeholder="Password" />
-                    {errors.password ? <div className={styles.input_invalid_text}>{errors.password}</div> : ''}
+                    <Field className={`${styles.input} ${errors.email && touched.email ? styles.input_invalid : ''}`} type="email" name="email" placeholder="Email" />
+                    {errors.email && touched.email ? <div className={styles.input_invalid_text}>{errors.email}</div> : ''}
+                    <Field className={`${styles.input} ${errors.password && touched.password ? styles.input_invalid : ''}`} type="password" name="password" placeholder="Password" />
+                    {errors.password && touched.password ? <div className={styles.input_invalid_text}>{errors.password}</div> : ''}
                     {statusMessage.text && <div className={statusMessage.type === 'fault' ? styles.fault : styles.success}>{statusMessage.text}</div>}
                     <button type="submit" className={styles.form__btn} disabled={isSubmitting}>
                         {isSubmitting ? (

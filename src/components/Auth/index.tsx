@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styles from './Auth.module.scss';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
-import SignupWith from './SignupWith';
+import SignupWith from './SigninWith';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -24,7 +24,7 @@ const Auth = () => {
                     </div>
                     <div className={styles.form__wrapper}>
                         <div className={`${styles.form__text} ${styles.white}`}>
-                            <div className={styles.form__text_text}>Sign Up with:</div>
+                            <div className={styles.form__text_text}>Sign In with:</div>
                         </div>
                         <SignupWith />
                     </div>

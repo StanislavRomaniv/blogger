@@ -1,6 +1,7 @@
+import { Session } from 'next-auth';
 import React, { ReactElement } from 'react';
-import Footer from '../Footer';
 
+import Footer from '../Footer';
 import Header from '../Header';
 
 const Layout = ({ children }: { children: ReactElement }) => {

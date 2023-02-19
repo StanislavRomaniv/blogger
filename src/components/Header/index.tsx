@@ -1,6 +1,9 @@
+import { NextComponentType } from 'next';
+import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import styles from './Header.module.scss';
 
@@ -10,8 +13,9 @@ const navigationLinks = [
     { name: 'Contact', path: '/contact' },
 ];
 
-const Header = () => {
+const Header: FC = () => {
     const [active, setActive] = useState(false);
+    const { data: session } = useSession();
 
     const clickHandler = () => {
         setActive((prev) => (prev ? false : true));
@@ -51,27 +55,31 @@ const Header = () => {
                                       </li>
                                   ))}
                             {active ? (
-                                <li className={`${styles.navbar__item} ${styles.navbar__item_login}`} onClick={clickHandler}>
-                                    <Link className={styles.navbar__item_link} href="/auth">
-                                        <div className={styles.login}>Log In</div>
+                                session ? (
+                                    <li className={styles.navbar__item}>
+                                        <Link className={styles.navbar__item_link} href="/profile">
+                                            <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} onClick={clickHandler} />
+                                        </Link>
+                                    </li>
+                                ) : (
+                                    <li className={`${styles.navbar__item} ${styles.navbar__item_login}`} onClick={clickHandler}>
+                                        <Link className={styles.navbar__item_link} href="/auth">
+                                            <div className={styles.login}>Log In</div>
+                                        </Link>
+                                    </li>
+                                )
+                            ) : session ? (
+                                <li className={styles.navbar__item}>
+                                    <Link className={styles.navbar__item_link} href="/profile">
+                                        <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} />
                                     </Link>
                                 </li>
                             ) : (
-                                // <li className={styles.navbar__item}>
-                                //     <Link className={styles.navbar__item_link} href="/profile">
-                                //         <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} onClick={clickHandler} />
-                                //     </Link>
-                                // </li>
                                 <li className={`${styles.navbar__item} ${styles.navbar__item_login}`}>
                                     <Link className={styles.navbar__item_link} href="/auth">
                                         <div className={styles.login}>Log In</div>
                                     </Link>
                                 </li>
-                                // <li className={styles.navbar__item}>
-                                //     <Link className={styles.navbar__item_link} href="/profile">
-                                //         <Image src="/icons/profile.svg" alt="svg" width={32} height={32} className={styles.account} />
-                                //     </Link>
-                                // </li>
                             )}
                         </ul>
                     </div>
