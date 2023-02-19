@@ -12,6 +12,18 @@
 .left {
     width: 100%;
     text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 10%;
+
+    div {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 
 .right {
@@ -26,6 +38,11 @@
 .header {
     display: flex;
     align-items: center;
+    position: relative;
+
+    &__input {
+        align-items: flex-end;
+    }
 }
 
 .block {
@@ -38,22 +55,6 @@
         margin-bottom: 10px;
     }
 
-    input {
-        font-size: 14px;
-        color: #4f4f4f;
-        width: 80%;
-        height: 40px;
-        font-family: 'Lato', sans-serif;
-        border: none;
-        border-bottom: 1px solid #bbbbbb;
-        resize: none;
-        overflow: hidden;
-
-        &:focus {
-            outline: none;
-        }
-    }
-
     textarea {
         font-size: 14px;
         color: #4f4f4f;
@@ -64,6 +65,7 @@
         border-bottom: 1px solid #bbbbbb;
         resize: none;
         overflow: hidden;
+        background-color: transparent;
 
         &:focus {
             outline: none;
@@ -87,11 +89,32 @@
 }
 
 .input {
-    display: flex;
-    align-items: flex-end;
+    font-size: 14px;
+    color: #4f4f4f;
+    width: 80%;
+    height: 40px;
+    font-family: 'Lato', sans-serif;
+    border: none;
+    border-bottom: 1px solid #bbbbbb;
+    resize: none;
+    overflow: hidden;
+
+    &:focus {
+        outline: none;
+    }
+
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+    }
 
     &__bottom {
         margin-top: 5px;
+    }
+
+    &__name {
+        padding-left: 32px;
     }
 }
 
@@ -112,6 +135,18 @@
     }
 }
 
+.arrow {
+    position: absolute;
+    background-color: #fff;
+    top: 22%;
+    left: -12px;
+    padding: 3px;
+
+    &:hover {
+        transform: scale(0.95);
+    }
+}
+
 .edit {
     width: 27px;
     height: 27px;
@@ -120,8 +155,92 @@
 
 .button {
     font-size: 14px;
-    padding: 8px 20px;
+    padding: 8px 0;
+    width: 160px;
     background-color: #fff;
     border: 1px solid #d0d0d0;
     border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        color: #fff;
+        border: 1px solid #06d4b2;
+        background-color: #06d4b2;
+    }
+}
+
+.logout {
+    width: 120px;
+}
+
+.avatar {
+    border-radius: 50%;
+}
+
+.plug {
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+}
+
+@media (max-width: 700px) {
+    .block {
+        textarea {
+            width: 100%;
+        }
+    }
+    .input {
+        width: 100%;
+
+        &__wrapper {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0 30px;
+    }
+}
+
+@media (max-width: 550px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .left {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 2fr 3fr;
+        grid-template-rows: 1fr;
+        column-gap: 10%;
+        margin-bottom: 40px;
+
+        div {
+            margin-top: 0;
+            align-items: flex-start;
+            height: 100%;
+            max-height: 100px;
+        }
+    }
+
+    .button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+    .avatar {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+@media (max-width: 390px) {
+    .avatar {
+        width: 110px;
+        height: 110px;
+    }
 }
