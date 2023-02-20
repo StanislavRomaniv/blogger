@@ -1,17 +1,59 @@
-import React, { FC, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
 
 import styles from './Profile.module.scss';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setName } from '@/redux/user/slice';
+import { userSelector } from '@/redux/user/selectors';
 
 const Profile: FC = () => {
-    const router = useRouter();
-    const [newName, setNewName] = useState(false);
+    const dispatch = useDispatch();
     const { data: session } = useSession();
+    const [newName, setNewName] = useState(false);
+    const [username, setUserName] = useState(session?.user?.name);
+    const { name } = useSelector(userSelector);
+
+    useEffect(() => {
+        name && setUserName(name);
+        // axios.get('/api/user/change-name').then((res) => setName(res.data.name));
+        console.log('name', name);
+        console.log('work');
+        console.log('ses', session);
+    }, []);
+
+    console.log(username);
 
     const signOutHandler = () => {
         signOut({ callbackUrl: 'http://localhost:3000' });
+    };
+
+    const closeNameHandler = () => {
+        setUserName(session?.user?.name);
+        setNewName((prev) => !prev);
+    };
+
+    const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setUserName(e.target.value);
+    };
+
+    const confirmNameChange = () => {
+        axios({
+            method: 'PATCH',
+            url: '/api/user/change-name',
+            data: {
+                email: session?.user?.email,
+                name: username,
+            },
+        })
+            .then((res) => {
+                setNewName((prev) => !prev);
+                dispatch(setName(username!));
+                // axios('/api/auth/session');
+            })
+            .catch((error) => setUserName(session?.user?.name));
     };
 
     return (
@@ -30,18 +72,20 @@ const Profile: FC = () => {
                     <div className={`${styles.header} ${newName && styles.header__input}`}>
                         {newName ? (
                             <>
-                                <svg onClick={() => setNewName((prev) => !prev)} className={`${styles.svg} ${styles.arrow}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg onClick={closeNameHandler} className={`${styles.svg} ${styles.arrow}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M19 5L4.99998 19M5.00001 5L19 19" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{' '}
                                 </svg>
-                                <input className={`${styles.input} ${styles.input__name}`} placeholder={session?.user?.name!} />
+                                <input onChange={changeNameHandler} value={username!} className={`${styles.input} ${styles.input__name} ${username?.length! < 5 && styles.input__invalid}`} placeholder="New name" />
                             </>
                         ) : (
-                            <h3 className={styles.name}>{session?.user?.name}</h3>
+                            <h3 className={styles.name}>{username}</h3>
                         )}
                         {newName ? (
-                            <svg className={styles.svg} fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" fillRule="evenodd" />
-                            </svg>
+                            <button onClick={confirmNameChange} disabled={username?.length! < 5} className={styles.confirm}>
+                                <svg className={styles.svg} fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" fillRule="evenodd" />
+                                </svg>
+                            </button>
                         ) : (
                             <svg onClick={() => setNewName((prev) => !prev)} className={`${styles.svg} ${styles.edit}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 10L21 7L17 3L14 6M18 10L8 20H4V16L14 6M18 10L14 6" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

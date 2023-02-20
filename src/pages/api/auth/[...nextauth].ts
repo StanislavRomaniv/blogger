@@ -1,4 +1,4 @@
-import NextAuth, { User } from 'next-auth';
+import NextAuth, { Session, User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import FacebookProvider from 'next-auth/providers/facebook';
@@ -6,9 +6,11 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { connectToCollection, createClient } from '@/utils/db-util';
 import { verifyPassword } from '@/utils/auth-util';
-import { LoginValues } from '@/components/Auth/LoginForm';
 
 export default NextAuth({
+    session: {
+        strategy: 'jwt',
+    },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -24,11 +26,8 @@ export default NextAuth({
         }),
         CredentialsProvider({
             name: 'credentials',
-            credentials: {
-                email: { label: 'Email', type: 'email' },
-                password: { label: 'Password', type: 'password' },
-            },
-            async authorize(credentials, req) {
+            // @ts-ignore
+            async authorize(credentials: User) {
                 let client, collection;
 
                 try {
@@ -58,5 +57,36 @@ export default NextAuth({
             },
         }),
     ],
-    secret: 'q552MDpF9lRapB3V1pIv1nhYD/h+1e9USgAYPbImw9E=',
+    callbacks: {
+        async jwt({ token }) {
+            let client, collection;
+
+            try {
+                client = await createClient();
+                collection = await connectToCollection(client, 'blogger', 'users');
+            } catch (error) {
+                client?.close();
+                return token;
+            }
+
+            const foundedUser: any = await collection.findOne({ email: token.email });
+
+            if (foundedUser) {
+                token.name = foundedUser.name;
+                token.user = foundedUser;
+            }
+
+            client.close();
+
+            return token;
+        },
+        async session({ session, token }) {
+            session.user.name = token.name!;
+
+            console.log(session);
+            console.log(token);
+            return session;
+        },
+    },
+    secret: process.env.CREDENTIALS_CLIENT_SECRET,
 });

@@ -10,7 +10,7 @@ import '@/styles/globals.css';
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
     return (
-        <SessionProvider session={pageProps.session}>
+        <SessionProvider refetchOnWindowFocus={true} session={pageProps.session}>
             <Provider store={store}>
                 <Layout>
                     <Component {...pageProps} />
