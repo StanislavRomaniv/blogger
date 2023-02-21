@@ -6,7 +6,7 @@ import styles from './Profile.module.scss';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setName } from '@/redux/user/slice';
+import { setAbout, setName } from '@/redux/user/slice';
 import { userSelector } from '@/redux/user/selectors';
 
 const Profile: FC = () => {
@@ -14,29 +14,22 @@ const Profile: FC = () => {
     const { data: session } = useSession();
     const [newName, setNewName] = useState(false);
     const [username, setUserName] = useState(session?.user?.name);
-    const { name } = useSelector(userSelector);
+    const [aboutText, setAboutText] = useState(session?.user?.about);
+    const { name, about } = useSelector(userSelector);
 
     useEffect(() => {
         name && setUserName(name);
+        about && setAboutText(about);
         // axios.get('/api/user/change-name').then((res) => setName(res.data.name));
-        console.log('name', name);
-        console.log('work');
-        console.log('ses', session);
     }, []);
-
-    console.log(username);
 
     const signOutHandler = () => {
         signOut({ callbackUrl: 'http://localhost:3000' });
     };
 
-    const closeNameHandler = () => {
+    const closeNameInputHandler = () => {
         setUserName(session?.user?.name);
         setNewName((prev) => !prev);
-    };
-
-    const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setUserName(e.target.value);
     };
 
     const confirmNameChange = () => {
@@ -51,9 +44,25 @@ const Profile: FC = () => {
             .then((res) => {
                 setNewName((prev) => !prev);
                 dispatch(setName(username!));
-                // axios('/api/auth/session');
+                // axios('/api/;auth/session');
             })
             .catch((error) => setUserName(session?.user?.name));
+    };
+
+    const confirmAboutChange = () => {
+        axios({
+            method: 'PATCH',
+            url: '/api/user/change-about',
+            data: {
+                email: session?.user?.email,
+                about: aboutText,
+            },
+        })
+            .then((res) => {
+                dispatch(setAbout(aboutText!));
+                // axios('/api/auth/session');
+            })
+            .catch((error) => setAboutText(''));
     };
 
     return (
@@ -72,10 +81,10 @@ const Profile: FC = () => {
                     <div className={`${styles.header} ${newName && styles.header__input}`}>
                         {newName ? (
                             <>
-                                <svg onClick={closeNameHandler} className={`${styles.svg} ${styles.arrow}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg onClick={closeNameInputHandler} className={`${styles.svg} ${styles.arrow}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M19 5L4.99998 19M5.00001 5L19 19" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{' '}
                                 </svg>
-                                <input onChange={changeNameHandler} value={username!} className={`${styles.input} ${styles.input__name} ${username?.length! < 5 && styles.input__invalid}`} placeholder="New name" />
+                                <input onChange={(e) => setUserName(e.target.value)} value={username!} className={`${styles.input} ${styles.input__name} ${username?.length! < 5 && styles.input__invalid}`} placeholder="New name" />
                             </>
                         ) : (
                             <h3 className={styles.name}>{username}</h3>
@@ -95,10 +104,12 @@ const Profile: FC = () => {
                     <div className={styles.block}>
                         <label htmlFor="bio">About me</label>
                         <div className={styles.input__wrapper}>
-                            <textarea name="bio" placeholder="My interests are:"></textarea>
-                            <svg className={styles.svg} fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" fillRule="evenodd" />
-                            </svg>
+                            <textarea onChange={(e) => setAboutText(e.target.value)} value={aboutText} name="bio" placeholder="My interests are:"></textarea>
+                            <button onClick={confirmAboutChange} className={styles.confirm}>
+                                <svg className={styles.svg} fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" fillRule="evenodd" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     <div className={styles.block}>
@@ -109,9 +120,11 @@ const Profile: FC = () => {
                         </div>
                         <div className={styles.input__wrapper}>
                             <input className={`${styles.input} ${styles.input__bottom}`} type="password" name="new_password" placeholder="New password"></input>
-                            <svg className={styles.svg} fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" fillRule="evenodd" />
-                            </svg>
+                            <button onClick={confirmAboutChange} className={styles.confirm}>
+                                <svg className={styles.svg} fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" fillRule="evenodd" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>

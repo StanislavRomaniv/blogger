@@ -22,7 +22,7 @@ export default ProfilePage;
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const session = await getSession({ req });
 
-    if (!session && req.url === '/profile') {
+    if (!session) {
         return {
             redirect: {
                 destination: '/auth',

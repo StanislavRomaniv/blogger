@@ -22,35 +22,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        if (!req.body.name || req.body.name.length < 5) {
-            res.status(422).send('Incorrect values!');
-            client.close;
-            return;
-        }
+        console.log('...........................................', req.body.about);
 
         try {
-            await collection.updateOne({ email: req.body.email }, { $set: { name: req.body.name } });
+            await collection.updateOne({ email: req.body.email }, { $set: { about: req.body.about } });
             res.status(200).send('Name successfully updated!');
         } catch (error) {
             res.status(500).send('Updating failed!');
         }
 
-        client.close();
-    } else if (req.method == 'GET') {
-        let client, collection;
-
-        try {
-            client = await createClient();
-            collection = await connectToCollection(client, 'blogger', 'users');
-        } catch (error) {
-            res.status(500).send('Connecting to the database failed!');
-            client?.close();
-            return;
-        }
-
-        const user = await collection.findOne({ email: req.body.email });
-
-        res.status(200).json({ name: user!.name });
         client.close();
     }
 };

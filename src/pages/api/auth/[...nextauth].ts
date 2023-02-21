@@ -1,4 +1,4 @@
-import NextAuth, { Session, User } from 'next-auth';
+import NextAuth, { Awaitable, Session, User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import FacebookProvider from 'next-auth/providers/facebook';
@@ -6,6 +6,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { connectToCollection, createClient } from '@/utils/db-util';
 import { verifyPassword } from '@/utils/auth-util';
+import { getSession } from 'next-auth/react';
 
 export default NextAuth({
     session: {
@@ -26,25 +27,34 @@ export default NextAuth({
         }),
         CredentialsProvider({
             name: 'credentials',
-            // @ts-ignore
-            async authorize(credentials: User) {
+            credentials: {
+                email: { label: 'Email', type: 'email' },
+                password: { label: 'Password', type: 'password' },
+            },
+            async authorize(credentials) {
+                const { email, password } = credentials as {
+                    email: string;
+                    password: string;
+                };
+
                 let client, collection;
 
                 try {
                     client = await createClient();
                     collection = await connectToCollection(client, 'blogger', 'users');
                 } catch (error) {
+                    client?.close();
                     throw new Error('Connection to the database failed!');
                 }
 
-                const user = await collection.findOne({ email: credentials!.email });
+                const user = await collection.findOne({ email: email });
 
                 if (!user) {
                     client.close();
                     throw new Error('User doesn`t exists!');
                 }
 
-                const passwordMatches = await verifyPassword(credentials!.password, user.password);
+                const passwordMatches = await verifyPassword(password, user.password);
 
                 if (!passwordMatches) {
                     client.close();
@@ -53,12 +63,18 @@ export default NextAuth({
 
                 client.close();
 
-                return user;
+                return { name: user.name, email: user.email, about: user.about || '', image: user.image || '', password: user.password };
             },
         }),
     ],
     callbacks: {
-        async jwt({ token }) {
+        jwt: async ({ token, user }) => {
+            if (user) {
+                token.user = user;
+            }
+            return token;
+        },
+        session: async ({ session }) => {
             let client, collection;
 
             try {
@@ -66,25 +82,22 @@ export default NextAuth({
                 collection = await connectToCollection(client, 'blogger', 'users');
             } catch (error) {
                 client?.close();
-                return token;
+                return session;
             }
 
-            const foundedUser: any = await collection.findOne({ email: token.email });
+            try {
+                const user = await collection.findOne({ email: session.user.email });
 
-            if (foundedUser) {
-                token.name = foundedUser.name;
-                token.user = foundedUser;
+                if (user) {
+                    const newUser = { name: user.name, email: user.email, about: user.about || '', image: user.image || '', password: user.password };
+                    session.user = newUser;
+                }
+            } catch (error) {
+                client.close();
+                return session;
             }
 
             client.close();
-
-            return token;
-        },
-        async session({ session, token }) {
-            session.user.name = token.name!;
-
-            console.log(session);
-            console.log(token);
             return session;
         },
     },
