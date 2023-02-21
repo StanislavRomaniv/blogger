@@ -6,6 +6,7 @@
 }
 
 .form {
+    position: relative;
     &__container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -164,6 +165,24 @@
             background-color: #fff;
         }
     }
+}
+
+.fault {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #ff0000;
+    margin-top: -10px;
+    position: absolute;
+}
+
+.success {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #15b200;
+    margin-top: -10px;
+    position: absolute;
 }
 
 @media (max-width: 768px) {

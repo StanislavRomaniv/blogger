@@ -3,20 +3,29 @@ import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    let client, collection;
+    let client, blogsCollection, usersCollection;
     const blogId = req.query.blogId;
 
     try {
         client = await createClient();
-        collection = await connectToCollection(client, 'blogger', 'blogs');
+        blogsCollection = await connectToCollection(client, 'blogger', 'blogs');
+        usersCollection = await connectToCollection(client, 'blogger', 'users');
     } catch (error) {
         res.status(500).send('Connection to the database failed');
         return;
     }
 
     if (req.method === 'POST') {
+        const user = await usersCollection.findOne({ email: req.body.email });
+
+        if (!user) {
+            res.status(500).send('User not found!');
+            client.close();
+            return;
+        }
+
         try {
-            await collection.updateOne({ id: blogId }, { $push: { comments: { ...req.body, id: new ObjectId() } } });
+            await blogsCollection.updateOne({ id: blogId }, { $push: { comments: { ...req.body, name: user.name, id: new ObjectId() } } });
             res.status(200).send('Comment was successfully added!');
         } catch (error) {
             res.status(500).send('Inserting failed');
@@ -25,7 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'GET') {
         try {
-            const data = await collection.find({ id: blogId }).toArray();
+            const data = await blogsCollection.find({ id: blogId }).toArray();
             res.status(201).json({ data: data[0].comments });
         } catch (error) {
             res.status(500).send({ message: 'Fetching data failed' });

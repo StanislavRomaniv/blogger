@@ -15,6 +15,14 @@ const Profile: FC = () => {
     const [newName, setNewName] = useState(false);
     const [username, setUserName] = useState(session?.user?.name);
     const [aboutText, setAboutText] = useState(session?.user?.about);
+    const [statusMessage, setStatusMessage] = useState({
+        text: '',
+        type: '',
+    });
+    const [passwordData, setPasswordData] = useState({
+        oldPassword: '',
+        newPassword: '',
+    });
     const { name, about } = useSelector(userSelector);
 
     useEffect(() => {
@@ -22,6 +30,23 @@ const Profile: FC = () => {
         about && setAboutText(about);
         // axios.get('/api/user/change-name').then((res) => setName(res.data.name));
     }, []);
+
+    useEffect(() => {
+        if (statusMessage.text) {
+            const timer = setTimeout(() => {
+                setStatusMessage({
+                    text: '',
+                    type: '',
+                });
+            }, 3000);
+
+            return () => {
+                clearTimeout(timer);
+            };
+        }
+
+        return;
+    }, [statusMessage]);
 
     const signOutHandler = () => {
         signOut({ callbackUrl: 'http://localhost:3000' });
@@ -63,6 +88,39 @@ const Profile: FC = () => {
                 // axios('/api/auth/session');
             })
             .catch((error) => setAboutText(''));
+    };
+
+    const confirmPasswordChange = () => {
+        axios({
+            method: 'PATCH',
+            url: '/api/user/change-password',
+            data: {
+                email: session?.user?.email,
+                oldPassword: passwordData.oldPassword,
+                newPassword: passwordData.newPassword,
+            },
+        })
+            .then((res) => {
+                setPasswordData({
+                    oldPassword: '',
+                    newPassword: '',
+                });
+                setStatusMessage({
+                    type: 'success',
+                    text: res.data,
+                });
+            })
+            .catch((error) => {
+                setPasswordData({
+                    oldPassword: '',
+                    newPassword: '',
+                });
+
+                setStatusMessage({
+                    type: 'fault',
+                    text: error.response.data,
+                });
+            });
     };
 
     return (
@@ -115,17 +173,30 @@ const Profile: FC = () => {
                     <div className={styles.block}>
                         <label htmlFor="old_password">Change password:</label>
                         <div className={styles.input__wrapper}>
-                            <input className={styles.input} type="password" name="old_password" placeholder="Old password"></input>
+                            <input
+                                onChange={(e) => setPasswordData((prev) => ({ ...prev, oldPassword: e.target.value }))}
+                                value={passwordData.oldPassword}
+                                className={styles.input}
+                                type="password"
+                                name="old_password"
+                                placeholder="Old password"></input>
                             <div className={styles.plug}></div>
                         </div>
                         <div className={styles.input__wrapper}>
-                            <input className={`${styles.input} ${styles.input__bottom}`} type="password" name="new_password" placeholder="New password"></input>
-                            <button onClick={confirmAboutChange} className={styles.confirm}>
+                            <input
+                                onChange={(e) => setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))}
+                                value={passwordData.newPassword}
+                                className={`${styles.input} ${styles.input__bottom} ${passwordData.newPassword.length! < 7 && passwordData.newPassword.length !== 0 && styles.input__invalid}`}
+                                type="password"
+                                name="new_password"
+                                placeholder="New password"></input>
+                            <button onClick={confirmPasswordChange} className={styles.confirm} disabled={passwordData.newPassword.length! < 7}>
                                 <svg className={styles.svg} fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" fillRule="evenodd" />
                                 </svg>
                             </button>
                         </div>
+                        {statusMessage.text && <div className={statusMessage.type === 'fault' ? styles.fault : styles.success}>{statusMessage.text}</div>}
                     </div>
                 </div>
             </div>
