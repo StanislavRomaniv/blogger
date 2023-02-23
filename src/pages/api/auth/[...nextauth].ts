@@ -88,7 +88,7 @@ export default NextAuth({
                 const user = await collection.findOne({ email: session.user.email });
 
                 if (user) {
-                    const newUser = { name: user.name, email: user.email, about: user.about || '', image: user.image || '', password: user.password };
+                    const newUser = { name: user.name, email: user.email, about: user.about || '', image: user.image || '', password: user.password, id: user.id };
                     session.user = newUser;
                 }
             } catch (error) {
