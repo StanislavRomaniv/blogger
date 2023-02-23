@@ -62,7 +62,7 @@ export default NextAuth({
 
                 client.close();
 
-                return { name: user.name, email: user.email, about: user.about || '', image: user.image || '', password: user.password };
+                return { name: user.name, email: user.email, about: user.about || '', image: user.image || '', password: user.password, id: user.id };
             },
         }),
     ],
