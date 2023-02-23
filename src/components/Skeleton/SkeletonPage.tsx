@@ -3,7 +3,7 @@ import Skeleton from '@mui/material/Skeleton';
 
 import styles from './Skeleton.module.scss';
 
-const SkeletonComponent = () => {
+const SkeletonPage = () => {
     return (
         <div className={styles.skeleton}>
             <Skeleton animation="wave" variant="rounded" className={`${styles.item} ${styles.button}`} />
@@ -35,4 +35,4 @@ const SkeletonComponent = () => {
     );
 };
 
-export default SkeletonComponent;
+export default SkeletonPage;

@@ -1,15 +1,13 @@
-import { GetStaticProps } from 'next';
+import axios from 'axios';
 import React, { FC, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createClient, connectToCollection } from '@/utils/db-util';
 
-import { setBlogs } from '@/redux/blogs/slice';
-import { blogsSelector } from '@/redux/blogs/selectors';
+import { BlogType } from '@/redux/blogs/types';
+
+import Sort from '@/components/Sort';
 import Blogs, { BlogListType } from '@/components/Blogs';
+import SkeletonAll from '@/components/Skeleton/SkeletonAll';
 
 import styles from '@/styles/PageHeader.module.scss';
-import { BlogType } from '@/redux/blogs/types';
-import Sort from '@/components/Sort';
 
 const sortList = [
     { name: 'Date (new fist)', type: 'date' },
@@ -18,28 +16,23 @@ const sortList = [
     { name: 'Name (Z - A)', type: '-name' },
 ];
 
-const BlogsPage: FC<BlogListType> = ({ blogList }) => {
-    const dispatch = useDispatch();
-    const [filteredList, setFilteredList] = useState<BlogType[]>(blogList);
-    const [sortType, setSortType] = useState<string>('date');
-    const data = useSelector(blogsSelector);
-
-    const sortCkickHandler = (type: string) => {
-        setSortType(type);
-        localStorage.setItem('sort-type-all', type);
-    };
+const BlogsPage: FC<BlogListType> = () => {
+    const [blogs, setBlogs] = useState<BlogType[]>();
+    const [filteredList, setFilteredList] = useState<BlogType[]>();
 
     const setNewList = (list: BlogType[]) => {
         setFilteredList(list);
     };
 
     useEffect(() => {
-        setSortType(localStorage.getItem('sort-type-all') || 'date');
-
-        if (!data.length) {
-            dispatch(setBlogs(blogList));
-        }
+        getNewestData();
     }, []);
+
+    const getNewestData = async () => {
+        await axios('/api/blogs')
+            .then((res) => setBlogs(res.data.data))
+            .catch((error) => console.log(error));
+    };
 
     return (
         <>
@@ -54,24 +47,27 @@ const BlogsPage: FC<BlogListType> = ({ blogList }) => {
                             It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,
                         </p>
                     </div>
-                    <Sort blogList={blogList} setNewList={setNewList} />
+                    {blogs && <Sort blogList={blogs} setNewList={setNewList} />}
                 </div>
             </div>
-            <Blogs blogList={filteredList} />
+            {filteredList ? <Blogs blogList={filteredList} /> : <SkeletonAll />}
         </>
     );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-    const client = await createClient();
-    const collection = await connectToCollection(client, 'blogger', 'blogs');
+// export const getStaticProps: GetStaticProps = async () => {
+//     const client = await createClient();
+//     const collection = await connectToCollection(client, 'blogger', 'blogs');
 
-    const data = await collection.find({}).toArray();
-    const blogList = JSON.parse(JSON.stringify(data));
+//     const data = await collection.find({}).toArray();
+//     const blogList = JSON.parse(JSON.stringify(data));
 
-    return {
-        props: { blogList },
-    };
-};
+//     // console.log('revalidate');
+
+//     return {
+//         props: { blogList },
+//         revalidate: 600,
+//     };
+// };
 
 export default BlogsPage;

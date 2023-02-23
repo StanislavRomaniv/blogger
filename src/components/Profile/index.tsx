@@ -49,6 +49,7 @@ const Profile: FC = () => {
     }, [statusMessage]);
 
     const signOutHandler = () => {
+        localStorage.removeItem('user-email');
         signOut({ callbackUrl: 'http://localhost:3000' });
     };
 

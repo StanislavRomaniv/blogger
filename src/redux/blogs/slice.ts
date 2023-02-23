@@ -17,6 +17,14 @@ export const blogsSlice = createSlice({
         getBlog: (state, { payload }: PayloadAction<string>) => {
             state.chosenBlog = state.blogs.find((blog) => blog._id === payload) || {};
         },
+        setLike: (state, { payload }: PayloadAction<{ id: string; isLiked: boolean }>) => {
+            const chosenBlog = state.blogs.find((blog) => blog._id === payload.id);
+            const index = state.blogs.indexOf(chosenBlog!);
+
+            // if (payload.isLiked) {
+            //     state.blogs[index] =
+            // }
+        },
     },
 });
 

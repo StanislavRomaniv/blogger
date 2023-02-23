@@ -1,4 +1,4 @@
-import NextAuth, { Awaitable, Session, User } from 'next-auth';
+import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import FacebookProvider from 'next-auth/providers/facebook';
@@ -6,7 +6,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { connectToCollection, createClient } from '@/utils/db-util';
 import { verifyPassword } from '@/utils/auth-util';
-import { getSession } from 'next-auth/react';
 
 export default NextAuth({
     session: {

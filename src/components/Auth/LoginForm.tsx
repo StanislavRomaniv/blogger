@@ -68,6 +68,7 @@ const LoginForm = () => {
                 type: 'fault',
             });
         } else {
+            localStorage.setItem('user-email', values.email);
             router.replace('/');
         }
 

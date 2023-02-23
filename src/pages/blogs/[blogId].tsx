@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { connectToCollection, createClient } from '@/utils/db-util';
 import { BlogType } from '@/redux/blogs/types';
 import BlogItemPage from '@/components/BlogPage';
-import SkeletonComponent from '@/components/Skeleton';
+import SkeletonPage from '@/components/Skeleton/SkeletonPage';
 
 import styles from '@/styles/PageHeader.module.scss';
 
@@ -18,7 +18,21 @@ const BlogPage: FC<BlogPageType> = ({ blogItem }) => {
             <div className={styles.header}>
                 <div className={`${styles.head__top} ${styles.head__top_page}`}></div>
             </div>
-            {blogItem ? <BlogItemPage id={blogItem.id} img={blogItem.img} title={blogItem.title} author={blogItem.author} descr={blogItem.descr} excerpt={blogItem.excerpt} date={blogItem.date} likes={blogItem.likes} /> : <SkeletonComponent />}
+            {blogItem ? (
+                <BlogItemPage
+                    id={blogItem.id}
+                    img={blogItem.img}
+                    title={blogItem.title}
+                    author={blogItem.author}
+                    descr={blogItem.descr}
+                    excerpt={blogItem.excerpt}
+                    date={blogItem.date}
+                    totalLikes={blogItem.totalLikes}
+                    usersLikes={blogItem.usersLikes}
+                />
+            ) : (
+                <SkeletonPage />
+            )}
         </>
     );
 };

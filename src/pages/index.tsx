@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     return {
         props: { blogList, featuredBlogList },
-        revalidate: 3600,
+        revalidate: 600,
     };
 };
 

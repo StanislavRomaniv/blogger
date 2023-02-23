@@ -11,7 +11,7 @@ const NewComment: FC<{ onAddComment: Function }> = ({ onAddComment }) => {
 
     const commentInputRef = useRef<HTMLTextAreaElement>(null);
 
-    function sendCommentHandler(event: ChangeEvent<HTMLFormElement>) {
+    const sendCommentHandler = (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (!session) {
@@ -32,7 +32,7 @@ const NewComment: FC<{ onAddComment: Function }> = ({ onAddComment }) => {
         });
 
         commentInputRef.current.value = '';
-    }
+    };
 
     return (
         <form onSubmit={sendCommentHandler} className={styles.form}>

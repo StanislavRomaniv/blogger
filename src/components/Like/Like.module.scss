@@ -1,0 +1,33 @@
+.btn {
+    background-color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:first-child {
+        margin-right: 30px;
+    }
+
+    span {
+        display: inline-block;
+        padding-left: 7px;
+        font-size: 15px;
+    }
+
+    svg {
+        transition: all 0.3s ease-in-out;
+        width: 28px;
+        height: 28px;
+    }
+
+    &:hover {
+        svg {
+            transform: scale(1.1);
+        }
+    }
+}
+
+.active {
+    fill: #ff0000;
+}

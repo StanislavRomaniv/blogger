@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createClient, connectToCollection } from '@/utils/db-util';
 import { hashPassword } from '@/utils/auth-util';
+import { createClient, connectToCollection } from '@/utils/db-util';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'POST') {

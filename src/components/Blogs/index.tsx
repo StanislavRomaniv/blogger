@@ -15,7 +15,7 @@ const Blogs: FC<BlogListType> = ({ blogList }) => {
             <div className={styles.container}>
                 <div className={styles.blog__list}>
                     {blogList.map((blog, i) => (
-                        <BlogItem key={blog.id} id={blog.id} img={blog.img} title={blog.title} author={blog.author} excerpt={blog.excerpt} descr={blog.descr} date={blog.date} likes={blog.likes} />
+                        <BlogItem key={blog.id} id={blog.id} img={blog.img} title={blog.title} author={blog.author} excerpt={blog.excerpt} descr={blog.descr} date={blog.date} totalLikes={blog.totalLikes} usersLikes={blog.usersLikes} />
                     ))}
                 </div>
             </div>

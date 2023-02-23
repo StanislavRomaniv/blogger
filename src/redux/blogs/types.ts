@@ -8,7 +8,8 @@ export interface BlogType {
     excerpt: string;
     featured: boolean;
     comments: CommentType[];
-    likes: number;
+    totalLikes: number;
+    usersLikes: { email: string }[];
     date: string;
 }
 
