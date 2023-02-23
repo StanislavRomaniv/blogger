@@ -23,7 +23,7 @@ const SignupForm = () => {
     useEffect(() => {
         if (statusMessage.text) {
             const timer = setTimeout(() => {
-                router.replace('/');
+                router.replace('/auth');
                 setStatusMessage({
                     text: '',
                     type: '',
