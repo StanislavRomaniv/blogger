@@ -1,9 +1,10 @@
 import React from 'react';
 
-import styles from '@/styles/PageHeader.module.scss';
 import Contact from '@/components/Contact';
 
-const index = () => {
+import styles from '@/styles/PageHeader.module.scss';
+
+const Content = () => {
     return (
         <>
             <div className={styles.header}>
@@ -24,4 +25,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default Content;

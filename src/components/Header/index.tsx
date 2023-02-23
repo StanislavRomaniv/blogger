@@ -1,5 +1,3 @@
-import { NextComponentType } from 'next';
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,16 +12,16 @@ const navigationLinks = [
 ];
 
 const Header: FC = () => {
-    const [active, setActive] = useState(false);
     const { data: session } = useSession();
-
-    const clickHandler = () => {
-        setActive((prev) => (prev ? false : true));
-    };
+    const [active, setActive] = useState(false);
 
     useEffect(() => {
         active ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = 'unset');
     }, [active]);
+
+    const clickHandler = () => {
+        setActive((prev) => (prev ? false : true));
+    };
 
     return (
         <header>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-import styles from './Auth.module.scss';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import SignupWith from './SigninWith';
+
+import styles from './Auth.module.scss';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);

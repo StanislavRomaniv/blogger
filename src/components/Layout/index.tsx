@@ -1,4 +1,3 @@
-import { Session } from 'next-auth';
 import React, { ReactElement } from 'react';
 
 import Footer from '../Footer';

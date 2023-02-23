@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
-
 import { connectToCollection, createClient } from '@/utils/db-util';
+
 import { BlogType } from '@/redux/blogs/types';
+
 import BlogItemPage from '@/components/BlogPage';
 import SkeletonPage from '@/components/Skeleton/SkeletonPage';
 

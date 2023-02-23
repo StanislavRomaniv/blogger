@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import React, { FC, useEffect, useState } from 'react';
 
 import styles from './Blogs.module.scss';
-import Link from 'next/link';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
 
 export interface BlogItemType {
     id: string;
@@ -28,6 +28,7 @@ const BlogItem: FC<BlogItemType> = ({ id, img, title, author, totalLikes, usersL
     const router = useRouter();
     const { data: session } = useSession();
     const email = typeof window !== 'undefined' && localStorage.getItem('user-email');
+
     const [isSending, setIsSending] = useState(false);
     const [likeData, setLikeData] = useState({
         isLiked: usersLikes.filter((item) => item.email === email).length > 0 ? true : false,
@@ -40,12 +41,6 @@ const BlogItem: FC<BlogItemType> = ({ id, img, title, author, totalLikes, usersL
         month: 'long',
         year: 'numeric',
     });
-
-    // console.log(title, usersLikes, session?.user.email);
-
-    // useEffect(() => {
-    //     axios
-    // }, [])
 
     useEffect(() => {
         if (isSending) {
@@ -68,8 +63,6 @@ const BlogItem: FC<BlogItemType> = ({ id, img, title, author, totalLikes, usersL
     };
 
     const sendLikeData = async (likeData: LikeType) => {
-        console.log('work', likeData);
-
         await axios({
             method: 'PATCH',
             url: `/api/likes/${id}`,
@@ -79,8 +72,6 @@ const BlogItem: FC<BlogItemType> = ({ id, img, title, author, totalLikes, usersL
                 email: email,
             },
         });
-
-        console.log('sending');
 
         setIsSending(false);
     };

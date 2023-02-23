@@ -1,8 +1,7 @@
-import axios from 'axios';
-import { Field, Form, Formik, FormikHelpers } from 'formik';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
 
 import styles from './Auth.module.scss';
 

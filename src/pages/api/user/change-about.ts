@@ -22,8 +22,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        console.log('...........................................', req.body.about);
-
         try {
             await collection.updateOne({ email: req.body.email }, { $set: { about: req.body.about } });
             res.status(200).send('Name successfully updated!');

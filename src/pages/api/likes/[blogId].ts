@@ -1,5 +1,4 @@
 import { connectToCollection, createClient } from '@/utils/db-util';
-import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

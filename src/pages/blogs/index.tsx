@@ -9,13 +9,6 @@ import SkeletonAll from '@/components/Skeleton/SkeletonAll';
 
 import styles from '@/styles/PageHeader.module.scss';
 
-const sortList = [
-    { name: 'Date (new fist)', type: 'date' },
-    { name: 'Date (old first)', type: '-date' },
-    { name: 'Name (A - Z)', type: 'name' },
-    { name: 'Name (Z - A)', type: '-name' },
-];
-
 const BlogsPage: FC<BlogListType> = () => {
     const [blogs, setBlogs] = useState<BlogType[]>();
     const [filteredList, setFilteredList] = useState<BlogType[]>();

@@ -11,8 +11,9 @@ import Contact from '@/components/Contact';
 import Blogs from '@/components/Blogs';
 import HeaderDivider from '@/components/Header/HeaderDivider';
 
-import styles from '@/styles/Home.module.scss';
 import { blogsSelector } from '@/redux/blogs/selectors';
+
+import styles from '@/styles/Home.module.scss';
 
 interface BlogListType {
     blogList: BlogType[];

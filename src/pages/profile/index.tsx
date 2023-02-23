@@ -1,6 +1,6 @@
 import React from 'react';
-import { GetServerSideProps, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
+import { GetServerSideProps, NextPage } from 'next';
 
 import Profile from '@/components/Profile';
 
@@ -30,8 +30,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
             },
         };
     }
-
-    console.log('session', session);
 
     return {
         props: {

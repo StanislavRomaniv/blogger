@@ -1,13 +1,13 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import axios from 'axios';
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
-
-import styles from './Profile.module.scss';
-import axios from 'axios';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setAbout, setName } from '@/redux/user/slice';
 import { userSelector } from '@/redux/user/selectors';
+import { setAbout, setName } from '@/redux/user/slice';
+
+import styles from './Profile.module.scss';
 
 const Profile: FC = () => {
     const dispatch = useDispatch();
@@ -28,7 +28,6 @@ const Profile: FC = () => {
     useEffect(() => {
         name && setUserName(name);
         about && setAboutText(about);
-        // axios.get('/api/user/change-name').then((res) => setName(res.data.name));
     }, []);
 
     useEffect(() => {
@@ -70,7 +69,6 @@ const Profile: FC = () => {
             .then((res) => {
                 setNewName((prev) => !prev);
                 dispatch(setName(username!));
-                // axios('/api/;auth/session');
             })
             .catch((error) => setUserName(session?.user?.name));
     };
@@ -86,7 +84,6 @@ const Profile: FC = () => {
         })
             .then((res) => {
                 dispatch(setAbout(aboutText!));
-                // axios('/api/auth/session');
             })
             .catch((error) => setAboutText(''));
     };

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import React, { FC, useEffect, useState } from 'react';
 import { Element, scroller } from 'react-scroll';
 import ReactMarkdown from 'react-markdown';
 
@@ -12,7 +13,6 @@ import NewComment from '../Comments/NewComment';
 import CommentList from '../Comments/CommentList';
 
 import styles from './BlogPage.module.scss';
-import { useSession } from 'next-auth/react';
 
 const BlogItemPage: FC<BlogItemType> = (props) => {
     const router = useRouter();
@@ -92,8 +92,6 @@ const BlogItemPage: FC<BlogItemType> = (props) => {
     const sendLikeData = async (likeData: LikeType) => {
         // localStorage.setItem('like-data', JSON.stringify(likeData));
 
-        console.log('work', likeData);
-
         await axios({
             method: 'PATCH',
             url: `/api/likes/${blog.id}`,
@@ -103,8 +101,6 @@ const BlogItemPage: FC<BlogItemType> = (props) => {
                 email: email,
             },
         });
-
-        console.log('sending');
 
         setIsSending(false);
     };
