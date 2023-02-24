@@ -18,7 +18,7 @@ const BlogPage: FC<BlogPageType> = ({ blogItem }) => {
     return (
         <>
             <Head>
-                <title>{blogItem.title ? blogItem.title : 'Blog'}</title>
+                <title>Blog</title>
             </Head>
             <div className={styles.header}>
                 <div className={`${styles.head__top} ${styles.head__top_page}`}></div>
