@@ -3,10 +3,14 @@ import React from 'react';
 import Contact from '@/components/Contact';
 
 import styles from '@/styles/PageHeader.module.scss';
+import Head from 'next/head';
 
 const Content = () => {
     return (
         <>
+            <Head>
+                <title>Contact me</title>
+            </Head>
             <div className={styles.header}>
                 <div className={styles.head__top}></div>
                 <div className={styles.container}>

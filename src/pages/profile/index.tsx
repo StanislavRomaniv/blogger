@@ -5,10 +5,14 @@ import { GetServerSideProps, NextPage } from 'next';
 import Profile from '@/components/Profile';
 
 import styles from '@/styles/PageHeader.module.scss';
+import Head from 'next/head';
 
 const ProfilePage: NextPage = () => {
     return (
         <>
+            <Head>
+                <title>Profile</title>
+            </Head>
             <div className={styles.header}>
                 <div className={styles.head__top}></div>
             </div>

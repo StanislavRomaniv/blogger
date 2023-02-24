@@ -8,6 +8,7 @@ import BlogItemPage from '@/components/BlogPage';
 import SkeletonPage from '@/components/Skeleton/SkeletonPage';
 
 import styles from '@/styles/PageHeader.module.scss';
+import Head from 'next/head';
 
 interface BlogPageType {
     blogItem: BlogType;
@@ -16,6 +17,9 @@ interface BlogPageType {
 const BlogPage: FC<BlogPageType> = ({ blogItem }) => {
     return (
         <>
+            <Head>
+                <title>{blogItem.title}</title>
+            </Head>
             <div className={styles.header}>
                 <div className={`${styles.head__top} ${styles.head__top_page}`}></div>
             </div>

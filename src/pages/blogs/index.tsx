@@ -8,6 +8,7 @@ import Blogs, { BlogListType } from '@/components/Blogs';
 import SkeletonAll from '@/components/Skeleton/SkeletonAll';
 
 import styles from '@/styles/PageHeader.module.scss';
+import Head from 'next/head';
 
 const BlogsPage: FC<BlogListType> = () => {
     const [blogs, setBlogs] = useState<BlogType[]>();
@@ -29,6 +30,9 @@ const BlogsPage: FC<BlogListType> = () => {
 
     return (
         <>
+            <Head>
+                <title>All blogs</title>
+            </Head>
             <div className={styles.header}>
                 <div className={styles.head__top}></div>
                 <div className={styles.container}>

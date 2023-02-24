@@ -14,6 +14,7 @@ import HeaderDivider from '@/components/Header/HeaderDivider';
 import { blogsSelector } from '@/redux/blogs/selectors';
 
 import styles from '@/styles/Home.module.scss';
+import Head from 'next/head';
 
 interface BlogListType {
     blogList: BlogType[];
@@ -32,6 +33,9 @@ const Home: FC<BlogListType> = ({ blogList, featuredBlogList }) => {
 
     return (
         <>
+            <Head>
+                <title>Blogger</title>
+            </Head>
             <div className={styles.header}>
                 <div className={styles.head__top}></div>
                 <Main />
