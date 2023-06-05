@@ -1,0 +1,9 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.container {
+  flex: 1 0 auto;
+}/*# sourceMappingURL=Layout.module.css.map */

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styles from './Footer.module.scss';
+import Link from 'next/link';
 
 const socialList = [
     { name: 'Instagram', src: '/icons/instagram.svg', path: 'https://instagram.com/stanislavvvromaniv' },
@@ -22,7 +23,8 @@ const Footer = () => {
             </ul>
             <div className={styles.footer__bottom}>
                 <span>
-                    © 2023 All Rights Reserved. Developed by <a href="https://github.com/StanislavRomaniv">Stanislav Romaniv</a>
+                    © 2023 All Rights Reserved. Developed by <Link href={'/about'}>Stanislav Romaniv</Link>
+                    {/* <a href="https://github.com/StanislavRomaniv">Stanislav Romaniv</a> */}
                 </span>
             </div>
         </footer>

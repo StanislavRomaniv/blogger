@@ -1,0 +1,72 @@
+.sort {
+  margin-top: 80px;
+  margin-bottom: -80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sort__text {
+  white-space: nowrap;
+  display: block;
+  font-size: 18px;
+  margin-right: 3%;
+}
+.sort__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  -moz-column-gap: 3%;
+       column-gap: 3%;
+  width: 100%;
+}
+.sort__item {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  background-color: #d6d6d6;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.sort__item_active {
+  background-color: #02fee5;
+}
+.sort__item:hover {
+  background-color: #02fee5;
+}
+
+@media (max-width: 800px) {
+  .sort {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .sort__text {
+    margin-bottom: 15px;
+  }
+  .sort__list {
+    grid-template-columns: 1fr 1fr;
+  }
+  .sort__item {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 600px) {
+  .sort {
+    align-items: flex-start;
+  }
+  .sort__text {
+    font-size: 16px;
+  }
+  .sort__item {
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 500px) {
+  .sort {
+    flex-wrap: wrap;
+  }
+  .sort__text {
+    margin-bottom: 15px;
+  }
+}/*# sourceMappingURL=Sort.module.css.map */
